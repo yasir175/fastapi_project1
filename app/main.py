@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
+from sqlalchemy import text
 from app import models
 from app.database import engine
 from .routers import post,user,auth,vote
@@ -38,9 +39,8 @@ async def root():
 @app.get("/db-test")
 def db_test(db: Session = Depends(get_db)):
     try:
-        result = db.execute("SELECT 1").scalar()
+        result = db.execute(text("SELECT 1")).scalar()
         return {"database_connection": "successful" if result == 1 else "failed"}
     except Exception as e:
         return {"database_connection": "failed", "error": str(e)}
-
 
