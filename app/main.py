@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
+from app.database import get_db
 from app import models
 from app.database import engine
 from .routers import post,user,auth,vote
