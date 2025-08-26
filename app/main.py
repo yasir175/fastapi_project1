@@ -33,4 +33,12 @@ app.include_router(vote.router)
 async def root():
     return {"message": "Hello"}
 
+@app.get("/db-test")
+def db_test(db: Session = Depends(get_db)):
+    try:
+        result = db.execute("SELECT 1").scalar()
+        return {"database_connection": "successful" if result == 1 else "failed"}
+    except Exception as e:
+        return {"database_connection": "failed", "error": str(e)}
+
 
